@@ -30,7 +30,7 @@ const fillInitialStudents = () => {
   });
   students.push({
     id: generateId(students),
-    name: "Carlos",
+    name: "Carlosss",
     lastName: "Jiménez",
     age: 33,
     email: "carlangas@hotmail.com",
