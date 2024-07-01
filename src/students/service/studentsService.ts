@@ -10,7 +10,29 @@ export const getStudentsTotal = (students: Student[]): number =>
 // Crea una función para añadir un estudiante a la lista de estudiantes
 // La función debe recibir un array de estudiantes y los datos del estudiante a añadir
 // Si el estudiante ya existe en la lista, muestra un error con showErrorModal
-// export const addStudent =
+export const addStudent = (
+  students: Student[],
+  name: string,
+  lastName: string,
+  age: number,
+  email: string,
+  phoneNumber: string
+): void => {
+  const newStudent: Student = {
+    id: generateId(students),
+    name,
+    lastName,
+    age,
+    email,
+    phoneNumber,
+  };
+
+  if (students.includes(newStudent)) {
+    showErrorModal("Este estudiante ya esta inscrito");
+  } else {
+    students.push(newStudent);
+  }
+};
 
 // Crea una función para eliminar un estudiante de la lista de estudiantes
 // La función debe recibir un array de estudiantes y el id del estudiante a eliminar
