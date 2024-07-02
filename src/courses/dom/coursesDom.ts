@@ -2,8 +2,8 @@ import { courses } from "../../index.js";
 import { coursesStorage } from "../../storage/Storage.js";
 import { Course } from "../../types.js";
 import {
-  // addCourse,
-  // deleteCourse,
+  addCourse,
+  deleteCourse,
   getCoursesTotal,
 } from "../service/coursesService.js";
 
@@ -36,7 +36,7 @@ const createCourseRow = (course: Course): void => {
   `;
 
   row.querySelector("button")?.addEventListener("click", () => {
-    // deleteCourse(courses, course.id);
+    deleteCourse(courses, course.id);
     coursesStorage.save(courses);
 
     renderCoursesTable();
@@ -50,7 +50,7 @@ coursesForm.addEventListener("submit", (event) => {
 
   const courseName = coursesForm.querySelector("#name") as HTMLInputElement;
 
-  //addCourse(courses, courseName.value);
+  addCourse(courses, courseName.value);
   coursesStorage.save(courses);
 
   renderCoursesTable();
