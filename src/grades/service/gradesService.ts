@@ -3,21 +3,66 @@ import { showErrorModal } from "../../dom/index.js";
 import { Grade } from "../../types";
 import { generateId } from "../../utils.js";
 
-// Crea una función para obtener el total de notas
-// La función debe recibir un array de notas y devolver el total de notas
 export const getGradesTotal = (grades: Grade[]): number => grades.length;
 
-// Crea una función para obtener los datos completos de una nota
-// La función debe recibir una nota
-// La función debe devolver un objeto con las mismas propiedades de la nota
-// más las propiedades studentName, studentLastName y courseName
-// export const getGradeFullData =
+export const getGradeFullData = (
+  grade: Grade
+): {
+  value: number;
+  studentName: string;
+  studentLastName: string;
+  courseName: string;
+} => {
+  const studentData = students.find(
+    (student) => student.id === grade.studentId
+  );
+  const courseData = courses.find((course) => course.id === grade.courseId);
 
-// Crea una función para eliminar una nota de la lista de notas
-// La función debe recibir un array de notas y el id de la nota a eliminar
-// export const deleteGrade =
+  return {
+    value: grade.value,
+    studentName: studentData
+      ? studentData.name
+      : "No se ha  encontrado el nombre del usuario",
+    studentLastName: studentData
+      ? studentData.lastName
+      : "No se ha encontrado el apellido del usuario",
+    courseName: courseData
+      ? courseData.name
+      : "No se ha encontrado nombre el curso",
+  };
+};
 
-// Crea una función para crear una nueva nota
-// La función debe recibir un array de notas, el id del estudiante, el id del curso y el valor de la nota
-// Si la nota ya existe, muestra un error con showErrorModal
-// export const addGrade =
+export const deleteGrade = (grades: Grade[], id: number): void => {
+  const deleteGrade = grades.findIndex((grade) => grade.id === id);
+
+  if (deleteGrade !== -1) {
+    grades.splice(deleteGrade, 1);
+  }
+};
+
+export const addGrade = (
+  grades: Grade[],
+  studentId: number,
+  courseId: number,
+  value: number
+): void => {
+  const newGrade: Grade = {
+    id: generateId(grades),
+    studentId,
+    courseId,
+    value,
+  };
+
+  if (
+    grades.some(
+      (newGrade) =>
+        newGrade.studentId === studentId &&
+        newGrade.courseId === courseId &&
+        newGrade.value === value
+    )
+  ) {
+    showErrorModal("Este estudiante ya tiene una nota");
+  } else {
+    grades.push(newGrade);
+  }
+};
