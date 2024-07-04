@@ -2,13 +2,8 @@ import { showErrorModal } from "../../dom/index.js";
 import { Course } from "../../types";
 import { generateId } from "../../utils.js";
 
-// Crea una función para obtener el total de cursos
-// La función debe recibir un array de cursos y devolver el total de cursos
 export const getCoursesTotal = (courses: Course[]): number => courses.length;
 
-// Crea una función para añadir un curso a la lista de cursos
-// La función debe recibir un array de cursos y el nombre del curso a añadir
-// Si el curso ya existe en la lista, muestra un error con showErrorModal
 export const addCourse = (courses: Course[], name: string): void => {
   const newCourse: Course = { id: generateId(courses), name: name };
 
@@ -18,17 +13,22 @@ export const addCourse = (courses: Course[], name: string): void => {
     courses.push(newCourse);
   }
 };
-// Crea una función para eliminar un curso de la lista de cursos
-// La función debe recibir un array de cursos y el id del curso a eliminar
+
 export const deleteCourse = (courses: Course[], id: number): void => {
-  if (courses.includes(courses[id])) {
-    courses.splice(1, id);
+  const deleteCourseId = courses.findIndex((course) => course.id === id);
+
+  if (deleteCourseId !== -1) {
+    courses.splice(deleteCourseId, 1);
   }
 };
 
-// Crea una función para obtener las opciones de cursos para rellenar un select
-// La función debe recibir un array de cursos
-// La función debe devolver un array de objetos con dos propiedades: id y name
-// La propiedad id debe ser el id del curso
-// La propiedad name debe ser el nombre del curso
-// export const getCoursesOptions =
+export const getCoursesOptions = (
+  courses: Course[]
+): { id: number; name: string }[] => {
+  const courseData = courses.map((course) => ({
+    id: course.id,
+    name: course.name,
+  }));
+
+  return courseData;
+};
