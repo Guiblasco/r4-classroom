@@ -1,11 +1,11 @@
 import { courses, grades, students } from "../../index.js";
-// import { getStudentsOptions } from "../../students/service/studentsService.js";
-// import { getCoursesOptions } from "../../courses/service/coursesService.js";
+import { getStudentsOptions } from "../../students/service/studentsService.js";
+import { getCoursesOptions } from "../../courses/service/coursesService.js";
 import { Grade } from "../../types.js";
 import {
-  //   addGrade,
-  //   deleteGrade,
-  //   getGradeFullData,
+  addGrade,
+  deleteGrade,
+  getGradeFullData,
   getGradesTotal,
 } from "../service/gradesService.js";
 import { gradesStorage } from "../../storage/Storage.js";
@@ -19,22 +19,22 @@ if (!gradesTable || !gradesForm || !studentsSelect || !gradesCounter) {
   throw new Error("Missing elements");
 }
 
-/* getStudentsOptions(students).forEach(({ id, name, lastName }) => {
+getStudentsOptions(students).forEach(({ id, name, lastName }) => {
   const option = document.createElement("option");
   option.value = `${id}`;
   option.textContent = `${name} ${lastName}`;
 
   studentsSelect.appendChild(option);
-}); */
+});
 
-/* getCoursesOptions(courses).forEach(({ id, name }) => {
+getCoursesOptions(courses).forEach(({ id, name }) => {
   const option = document.createElement("option");
   option.value = `${id}`;
   option.textContent = name;
 
   const coursesSelect = gradesForm.querySelector("#course");
   coursesSelect?.appendChild(option);
-}); */
+});
 
 export const renderGradesTable = (): void => {
   gradesTable.innerHTML = "";
@@ -47,10 +47,10 @@ export const renderGradesTable = (): void => {
 };
 
 const createGradeRow = (grade: Grade): void => {
-  // const gradeData = getGradeFullData(grade);
+  const gradeData = getGradeFullData(grade);
 
   const row = document.createElement("tr");
-  /* row.innerHTML = `
+  row.innerHTML = `
     <tr>
       <td>${gradeData.studentName}</td>
       <td>${gradeData.studentLastName}</td>
@@ -58,10 +58,10 @@ const createGradeRow = (grade: Grade): void => {
       <td>${gradeData.value}</td>
       <td><button class="button">borrar</button></td>
     </tr>
-  `; */
+  `;
 
   row.querySelector("button")?.addEventListener("click", () => {
-    // deleteGrade(grades, grade.id);
+    deleteGrade(grades, grade.id);
     gradesStorage.save(grades);
 
     renderGradesTable();
@@ -81,12 +81,12 @@ gradesForm.addEventListener("submit", (event) => {
   ) as HTMLSelectElement;
   const gradeValue = gradesForm.querySelector("#grade") as HTMLInputElement;
 
-  /* addGrade(
+  addGrade(
     grades,
     +gradeStudentId.value,
     +gradeCourseId.value,
     +gradeValue.value
-  ); */
+  );
   gradesStorage.save(grades);
 
   renderGradesTable();

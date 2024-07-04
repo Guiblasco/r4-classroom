@@ -1,15 +1,11 @@
 import { showErrorModal } from "../../dom/index.js";
+import { students } from "../../index.js";
 import { Student } from "../../types.js";
 import { generateId } from "../../utils.js";
 
-// Crea una función para obtener el total de estudiantes
-// La función debe recibir un array de estudiantes y devolver el total de estudiantes
 export const getStudentsTotal = (students: Student[]): number =>
   students.length;
 
-// Crea una función para añadir un estudiante a la lista de estudiantes
-// La función debe recibir un array de estudiantes y los datos del estudiante a añadir
-// Si el estudiante ya existe en la lista, muestra un error con showErrorModal
 export const addStudent = (
   students: Student[],
   name: string,
@@ -27,29 +23,53 @@ export const addStudent = (
     phoneNumber,
   };
 
-  if (students.includes(newStudent)) {
+  if (
+    students.some(
+      (student) =>
+        student.name === name &&
+        student.lastName === lastName &&
+        student.age === age &&
+        student.email === email &&
+        student.phoneNumber === phoneNumber
+    )
+  ) {
     showErrorModal("Este estudiante ya esta inscrito");
   } else {
     students.push(newStudent);
+    console.log(newStudent.id);
   }
 };
 
-// Crea una función para eliminar un estudiante de la lista de estudiantes
-// La función debe recibir un array de estudiantes y el id del estudiante a eliminar
 export const deleteStudent = (students: Student[], id: number): void => {
-  if (students.includes(students[id])) {
-    students.splice(id);
+  const deleteStudent = students.findIndex((student) => student.id === id);
+
+  if (deleteStudent !== -1) {
+    students.splice(deleteStudent, 1);
   }
 };
 
-// Crea una función para obtener las opciones de estudiantes para rellenar un select
-// La función debe recibir un array de estudiantes
-// La función debe devolver un array de objetos con tres propiedades: id, name y lastName
-// La propiedad id debe ser el id del estudiante
-// La propiedad name debe ser el nombre del estudiante
-// La propiedad lastName debe ser el apellido del estudiante
-// export const getStudentsOptions =
+export const getStudentsOptions = (
+  students: Student[]
+): { id: number; name: string; lastName: string }[] => {
+  const studentData = students.map((student) => ({
+    id: student.id,
+    name: student.name,
+    lastName: student.lastName,
+  }));
 
-// Crea una función para obtener el nombre completo de un estudiante por su id
-// La función debe recibir un array de estudiantes y el id del estudiante
-// export const getStudentNameById =
+  return studentData;
+};
+
+export const getStudentNameById = (
+  students: Student[],
+  studentId: number
+): string => {
+  const studentCompleteName = students.find(
+    (student) => studentId === student.id
+  );
+
+  if (studentCompleteName) {
+    return `${studentCompleteName.name} ${studentCompleteName.lastName}`;
+  }
+  return "No existe el estudiante";
+};
