@@ -23,20 +23,10 @@ export const addStudent = (
     phoneNumber,
   };
 
-  if (
-    students.some(
-      (student) =>
-        student.name === name &&
-        student.lastName === lastName &&
-        student.age === age &&
-        student.email === email &&
-        student.phoneNumber === phoneNumber
-    )
-  ) {
+  if (students.some((student) => student.email === email)) {
     showErrorModal("Este estudiante ya esta inscrito");
   } else {
     students.push(newStudent);
-    console.log(newStudent.id);
   }
 };
 
